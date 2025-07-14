@@ -13,7 +13,7 @@ async def send_heartbit() -> bool:
     await socket.send(bytes([0xF0]))
     await aio.sleep(5)
     data, bytelen = await socket.recv()
-    if bytelen == 0 or data != 0x0F:
+    if bytelen == 0 or data != [0x0F]:
         return False
     else:
         print("Heartbeat from raspberry successfully received")

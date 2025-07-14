@@ -17,6 +17,8 @@ class AsyncSerialSocket(aioserial.AioSerial):
         super().__init__(
             port=PORTNAME,                # Имя порта
             baudrate=BPS,                 # Скорость передачи (bits per second)
+            timeout=0,
+            write_timeout=0,
         )
         self.fullpack_size = USEFUL_PACKAGE_SIZE
         
@@ -31,9 +33,7 @@ class AsyncSerialSocket(aioserial.AioSerial):
 
     async def recv(self) -> tuple[bytearray, int]:
         """ Recv bytes from modem """
-        buffer: bytearray = bytearray()
-        buffer_size = await self.readinto_async(buffer)
-        return (buffer, buffer_size)
+        await self.read_async()
 
 
 socket = AsyncSerialSocket()
